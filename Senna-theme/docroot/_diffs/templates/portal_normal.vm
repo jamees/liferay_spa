@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+#parse ($init)
+
+<html class="$root_css_class" dir="#language ("lang.dir")" lang="$w3c_language_id">
+
+<head>
+	<title>$the_title - $company_name</title>
+
+	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
+	
+	<link rel="senna-route" href="regex:.*" type="senna.HtmlScreen" />
+	
+	<script src="$javascript_folder/senna-debug.js"></script>
+	$theme.include($top_head_include)
+	
+	
+	 <!-- Angular Material style sheet -->
+  	  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  
+  
+	  <!-- Angular Material requires Angular.js Libraries -->
+	  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+	
+	  <!-- Angular Material Library -->
+	  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+	 
+	  <script>
+  	    var app = angular.module('BanchileApp', ['ngMaterial']);
+      </script>
+      
+      <script src="$javascript_folder/app.js?id=212"></script>
+      
+	
+	
+</head>
+
+
+<body data-senna class="$css_class">
+
+
+
+<a href="#main-content" id="skip-to-content">#language ("skip-to-content")</a>
+
+$theme.include($body_top_include)
+
+#dockbar()
+
+<div class="container-fluid" id="wrapper">
+	<header id="banner" role="banner">
+		<div id="heading">
+			<h1 class="site-title">
+				<a class="$logo_css_class" href="$site_default_url" title="#language_format ("go-to-x", [$site_name])">
+					<img alt="$logo_description" height="$site_logo_height" src="$site_logo" width="$site_logo_width" />
+
+					#if ($show_site_name)
+						<span class="site-name" title="#language_format ("go-to-x", [$site_name])">
+							$site_name
+						</span>
+					#end
+				</a>
+
+			</h1>
+
+			<h2 class="page-title">
+				<span>$the_title</span>
+			</h2>
+		</div>
+
+		#if ($has_navigation || $is_signed_in)
+			#parse ("$full_templates_path/navigation.vm")
+		#end
+	</header>
+
+	<div id="content">
+		<nav id="breadcrumbs">#breadcrumbs()</nav>
+
+		#if ($selectable)
+			$theme.include($content_include)
+		#else
+			$portletDisplay.recycle()
+
+			$portletDisplay.setTitle($the_title)
+
+			$theme.wrapPortlet("portlet.vm", $content_include)
+		#end
+	</div>
+
+	<footer id="footer" role="contentinfo">
+		<p class="powered-by">
+			#language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>
+		</p>
+	</footer>
+</div>
+
+$theme.include($body_bottom_include)
+
+$theme.include($bottom_include)
+
+<script>
+    var app = new senna.App();
+    app.setLinkSelector(".senna-link")
+    app.setBasePath('/web/nueva-web/');
+    app.addSurfaces('content');
+    app.addRoutes([
+    	#set($urlSiteBase=$themeDisplay.getPortalURL()+$themeDisplay.getPathFriendlyURLPublic()+$layout.getGroup().friendlyURL+"/")
+    	#foreach ($nav_item in $nav_items)
+    		#set($urlItem=$nav_item.getRegularURL().split($urlSiteBase).get(1)) 
+    		new senna.Route('$urlItem', senna.HtmlScreen),				
+			#if ($nav_item.hasChildren())
+				#foreach ($nav_child in $nav_item.getChildren())
+					#set($urlItem=$nav_child.getRegularURL().split($urlSiteBase).get(1)) 
+					new senna.Route('$urlItem', senna.HtmlScreen),				
+				#end
+			#end
+		#end
+    ]);
+  </script>
+  
+  
+  
+  
+  
+  	
+  
+</body>
+
+</html>
